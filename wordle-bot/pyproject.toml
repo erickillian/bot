@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "wordle-bot"
+version = "0.1.0"
+description = ""
+authors = ["TeaBear5 <tyler.bair@protonmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+convergeutils = {git = "https://github.com/ConvergeTechs/convergeutils.git", rev = "master"}
+requests = "^2.28.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[tool.poetry.scripts]
+letter-counts = "wordle_bot.analysis:letter_counts"
+valid-words = "wordle_bot.analysis:get_valid_words"
+valid-words2 = "wordle_bot.analysis:valid_words_v2"
+guesser-test = "wordle_bot.guess:guesser_test"
+brute-force = "wordle_bot.analysis:brute_force"
+play-wordle = "wordle_bot.play:play"
+sim-all-wordles = "wordle_bot.play:sim_all_wordles"
+lookup-guess = "wordle_bot.play:best_guess_lookup"
+auto-play = "wordle_bot.play:autoplay"
+memorize-analysis = "wordle_bot.memorization:memorize_analysis"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

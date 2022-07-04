@@ -5,9 +5,9 @@ import json
 import random
 import numpy as np
 from convergeutils.utils import add_logging_parser, setup_logging_from_args
-from convergle_bot.guess import Guesser
-from convergle_bot.words import GUESSES, WORDS
-from convergle_bot.analysis import general_brute_force, valid_words
+from wordle_bot.guess import Guesser
+from wordle_bot.words import GUESSES, WORDS
+from wordle_bot.analysis import general_brute_force, valid_words
 
 logger = logging.getLogger(__name__)
 

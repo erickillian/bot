@@ -2,8 +2,8 @@
 import argparse
 import logging
 from convergeutils.utils import add_logging_parser, setup_logging_from_args
-from convergle_bot.words import WORDS, GUESSES
-from convergle_bot.guess import Guesser
+from wordle_bot.words import WORDS, GUESSES
+from wordle_bot.guess import Guesser
 
 logger = logging.getLogger(__name__)
 

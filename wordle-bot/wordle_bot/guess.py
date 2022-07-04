@@ -3,7 +3,7 @@ import argparse
 import logging
 import random
 from convergeutils.utils import add_logging_parser, setup_logging_from_args
-from convergle_bot.words import WORDS, GUESSES
+from wordle_bot.words import WORDS, GUESSES
 
 logger = logging.getLogger(__name__)
 
