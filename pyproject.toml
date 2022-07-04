@@ -5,7 +5,7 @@ description = ""
 authors = ["TeaBear5 <tyler.bair@protonmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.10.5"
 requests = "^2.28.0"
 numpy = "^1.23.0"
 
