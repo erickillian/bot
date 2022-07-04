@@ -1,7 +1,6 @@
 """This file contains world anaysis tools."""
 import argparse
 import logging
-from convergeutils.utils import add_logging_parser, setup_logging_from_args
 from wordle_bot.words import WORDS, GUESSES
 from wordle_bot.guess import Guesser
 
@@ -35,10 +34,37 @@ def word_scores(words):
 
 def letter_counts():
     parser = argparse.ArgumentParser("Convergle letter count analysis CLI.")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     args = parser.parse_args()
 
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
     counts = [0 for _ in LETTERS]
     index_counts = [[0 for _ in range(5)] for _letter in LETTERS]
 
@@ -86,7 +112,19 @@ def valid_words(guesses, results, words=WORDS):
 
 def valid_words_v2():
     parser = argparse.ArgumentParser("Convergle Valid Word V2 CLI tool")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     parser.add_argument(
         "--guesses", nargs="+", type=str, help="List of guesses"
     )
@@ -94,7 +132,22 @@ def valid_words_v2():
         "--results", nargs="+", type=str, help="List of guess results"
     )
     args = parser.parse_args()
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
 
     assert len(args.guesses) == len(args.results), "Array Sizes not Matched."
     for guess, result in zip(args.guesses, args.results):
@@ -111,7 +164,19 @@ def valid_words_v2():
 
 def get_valid_words():
     parser = argparse.ArgumentParser("Convergle letter count analysis CLI.")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     parser.add_argument(
         "--zero", type=str, help="Letter at index 0.", default=None
     )
@@ -150,7 +215,22 @@ def get_valid_words():
     )
     args = parser.parse_args()
 
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
     valids = []
 
     for word in WORDS:
@@ -236,7 +316,19 @@ def general_brute_force(guessables, words):
 def brute_force():
     """CLI Entrypoint for brute force guess calculations."""
     parser = argparse.ArgumentParser("Convergle Brute Force CLI.")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     parser.add_argument(
         "--guesses", nargs="+", type=str, help="List of guesses", default=[]
     )
@@ -249,7 +341,22 @@ def brute_force():
     )
     args = parser.parse_args()
 
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
     starting_words = valid_words(args.guesses, args.results)
 
     best_guess, average = general_brute_force(WORDS, starting_words)

@@ -2,7 +2,6 @@
 import argparse
 import logging
 import random
-from convergeutils.utils import add_logging_parser, setup_logging_from_args
 from wordle_bot.words import WORDS, GUESSES
 
 logger = logging.getLogger(__name__)
@@ -38,7 +37,19 @@ class Guesser:
 
 def guesser_test():
     parser = argparse.ArgumentParser("CLI Tool for Guesser Test.")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     parser.add_argument(
         "--word", type=str, help="True word to be guessed.", default=None
     )
@@ -50,7 +61,22 @@ def guesser_test():
     )
     args = parser.parse_args()
 
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
 
     if args.seed is not None:
         random.seed(args.seed)

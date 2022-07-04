@@ -3,8 +3,8 @@ import argparse
 import logging
 import json
 import random
+import logging
 import numpy as np
-from convergeutils.utils import add_logging_parser, setup_logging_from_args
 from wordle_bot.guess import Guesser
 from wordle_bot.words import GUESSES, WORDS
 from wordle_bot.analysis import general_brute_force, valid_words
@@ -15,10 +15,38 @@ logger = logging.getLogger(__name__)
 def play():
     """Entry point for convergle play script."""
     parser = argparse.ArgumentParser("Play Convergle CLI Script")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
 
     args = parser.parse_args()
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
+
     word = random.choice(WORDS)
     guesser = Guesser(word)
     result = "00000"
@@ -35,7 +63,19 @@ def play():
 def sim_all_wordles():
     """Entry point for sim of all wordles."""
     parser = argparse.ArgumentParser("Bot plays all wordles CLI Script")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     parser.add_argument(
         "--save-file",
         type=str,
@@ -50,7 +90,22 @@ def sim_all_wordles():
     )
 
     args = parser.parse_args()
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
 
     counts = []
     count_one_results = []
@@ -101,7 +156,19 @@ def sim_all_wordles():
 
 def best_guess_lookup():
     parser = argparse.ArgumentParser("Bot plays all wordles CLI Script")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     parser.add_argument(
         "--save-file",
         type=str,
@@ -111,7 +178,22 @@ def best_guess_lookup():
     parser.add_argument("--result", type=str, help="Result String to look up.")
 
     args = parser.parse_args()
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
 
     with open(args.save_file, "r") as raw_data:
         lines = raw_data.readlines()
@@ -133,7 +215,19 @@ def autoplay():
     import requests
 
     parser = argparse.ArgumentParser("Bot plays all wordles CLI Script")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     parser.add_argument(
         "--save-file",
         type=str,
@@ -142,7 +236,22 @@ def autoplay():
     )
 
     args = parser.parse_args()
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
 
     with open(args.save_file, "r") as raw_data:
         lines = raw_data.readlines()

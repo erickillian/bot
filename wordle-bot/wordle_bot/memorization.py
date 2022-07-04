@@ -1,7 +1,6 @@
 """This file contains tools for easily memorizing a lookup tree."""
 import argparse
 import logging
-from convergeutils.utils import add_logging_parser, setup_logging_from_args
 
 logger = logging.getLogger(__name__)
 
@@ -9,7 +8,19 @@ logger = logging.getLogger(__name__)
 def memorize_analysis():
     """Entry point for memorization of lookup tree."""
     parser = argparse.ArgumentParser("Memorization tool CLI Script")
-    add_logging_parser(parser)
+    parser.add_argument(
+        "--loglevel",
+        type=int,
+        help="Loglevel integer for logging system.",
+        default=logging.INFO,
+    )
+
+    parser.add_argument(
+        "--logfile",
+        type=str,
+        help="Logfile to write log.",
+        default=None,
+    )
     parser.add_argument(
         "--save-file",
         type=str,
@@ -18,7 +29,22 @@ def memorize_analysis():
     )
 
     args = parser.parse_args()
-    setup_logging_from_args(args)
+    if args.logfile is None:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
+    else:
+        logging.basicConfig(
+            format='%(asctime)s [%(levelname)s] %(message)s',
+            level=args.loglevel,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+                logging.FileHandler(args.logfile),
+                logging.StreamHandler(sys.stdout),
+            ],
+        )
 
     with open(args.save_file, "r") as raw_data:
         lines = raw_data.readlines()
